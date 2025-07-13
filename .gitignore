@@ -116,3 +116,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/Users/umutdurak/micromamba/envs/jach
