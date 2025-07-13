@@ -1,0 +1,100 @@
+{
+  "Major": [
+    {
+      "name": "Major Triad (E-string root)",
+      "positions": [
+        [5, 3, "R"],
+        [4, 5, "5"],
+        [3, 5, "R"],
+        [2, 4, "3"],
+        [1, -1, null],
+        [0, -1, null]
+      ]
+    },
+    {
+      "name": "Major Triad (A-string root)",
+      "positions": [
+        [4, 0, "R"],
+        [3, 2, "3"],
+        [2, 2, "5"],
+        [1, 2, "R"],
+        [0, 0, "3"]
+      ]
+    }
+  ],
+  "Major 7": [
+    {
+      "name": "Major 7 (E-string root)",
+      "positions": [
+        [5, 3, "R"],
+        [4, 6, "7"],
+        [3, 5, "3"],
+        [2, -1, null],
+        [1, -1, null],
+        [0, -1, null]
+      ]
+    }
+  ],
+  "Dominant 7": [
+    {
+      "name": "Dominant 7 (E-string root)",
+      "positions": [
+        [5, 3, "R"],
+        [4, 5, "7b"],
+        [3, 5, "3"],
+        [2, -1, null],
+        [1, -1, null],
+        [0, -1, null]
+      ]
+    }
+  ],
+  "Minor 7": [
+    {
+      "name": "Minor 7 (E-string root)",
+      "positions": [
+        [5, 3, "R"],
+        [4, 5, "7b"],
+        [3, 4, "3b"],
+        [2, -1, null],
+        [1, -1, null],
+        [0, -1, null]
+      ]
+    }
+  ],
+  "Major 6": [
+    {
+      "name": "Major 6 (E-string root)",
+      "positions": [
+        [5, 3, "R"],
+        [4, 3, "6"],
+        [3, 5, "3"],
+        [2, -1, null],
+        [1, -1, null],
+        [0, -1, null]
+      ]
+    }
+  ],
+  "Minor 6": [
+    {
+      "name": "Minor 6 (E-string root)",
+      "positions": [
+        [5, 3, "R"],
+        [4, 3, "6"],
+        [3, 4, "3b"],
+        [2, -1, null],
+        [1, -1, null],
+        [0, -1, null]
+      ]
+    },
+    {
+      "name": "Minor 6 (A-string root)",
+      "positions": [
+        [4, 2, "R"],
+        [3, 0, "3"],
+        [2, 2, "5"],
+        [1, 0, "6"],
+        [0, -1, null]
+      ]
+    }
+  ]
+}
