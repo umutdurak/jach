@@ -40,7 +40,7 @@ class ChordWidget(QWidget):
         painter.setFont(title_font)
         painter.setPen(QColor("#000000"))
         chord_name = f"{self.root_note} {self.current_chord['name']}"
-        painter.drawText(self.rect().adjusted(0, 20, 0, 0), Qt.AlignCenter | Qt.AlignTop, chord_name)
+        painter.drawText(self.rect().adjusted(0, 10, 0, 0), Qt.AlignCenter | Qt.AlignTop, chord_name)
 
         painter.setPen(QPen(QColor("#8c8c8c"), 2))
         for i in range(num_frets + 1):
@@ -51,20 +51,22 @@ class ChordWidget(QWidget):
             x = fretboard_rect.left() + i * string_spacing
             painter.drawLine(x, fretboard_rect.top(), x, fretboard_rect.bottom())
 
+        root_offset = self.notes.index(self.root_note)
+        frets = [fret + root_offset for _, fret, _ in self.current_chord["positions"] if fret > 0]
+        min_fret = min(frets) if frets else 1
+
         # Draw Fret Numbers
         fret_font = QFont("Arial", 10)
         painter.setFont(fret_font)
         painter.setPen(QColor("#8c8c8c"))
         for i in range(1, num_frets + 1):
             y = fretboard_rect.top() + (i - 0.5) * fret_height
-            painter.drawText(fretboard_rect.right() + 5, y + 5, str(i))
-
-        root_offset = self.notes.index(self.root_note)
+            painter.drawText(fretboard_rect.right() + 5, y + 5, str(i + min_fret - 1))
 
         for string, fret, interval in self.current_chord["positions"]:
             string_index = 5 - string
             x = fretboard_rect.left() + string_index * string_spacing
-            new_fret = fret + root_offset
+            new_fret = fret + root_offset - min_fret + 1
 
             if new_fret > 0 and new_fret <= num_frets:
                 y = fretboard_rect.top() + (new_fret - 0.5) * fret_height
