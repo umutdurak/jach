@@ -1,0 +1,126 @@
+[DOCUMENT]
+TITLE: Software Requirements Specification (SRS) for Jach
+UID: SRS-JACH
+
+[SECTION]
+TITLE: Introduction
+UID: INTRO
+
+This document outlines the requirements for Jach, a desktop application designed to visualize and explore jazz guitar chord shapes. The application aims to provide guitarists with an interactive tool to understand and practice various chord voicings across different keys.
+
+[SECTION]
+TITLE: Functional Requirements (FRs)
+UID: FRS
+
+[REQUIREMENT]
+UID: FR1
+LEVEL: 1
+STATUS: Implemented
+TAGS: Functional, GUI
+TITLE: Chord Diagram Display
+STATEMENT:
+The system shall display a graphical representation of a guitar fretboard, consisting of 6 strings and 5 frets. It shall accurately render the notes of a selected chord on the fretboard, indicating fretted notes, open strings, and muted strings. Each fretted note shall be annotated with its corresponding interval (e.g., R, 3, 5, 7b).
+
+[REQUIREMENT]
+UID: FR2
+LEVEL: 1
+STATUS: Implemented
+TAGS: Functional, GUI
+TITLE: Chord Type Selection
+STATEMENT:
+The system shall provide a dropdown menu or similar control to select different chord types (e.g., Major, Major 7, Dominant 7, Minor 7, Major 6, Minor 6). Upon selection, the displayed chord diagram shall update to reflect the chosen chord type.
+
+[REQUIREMENT]
+UID: FR3
+LEVEL: 1
+STATUS: Implemented
+TAGS: Functional, GUI
+TITLE: Root Note Selection (Transposition)
+STATEMENT:
+The system shall provide a dropdown menu or similar control to select the root note of the chord (e.g., C, C#, D, D#, E, F, F#, G, G#, A, A#, B). Upon selection, the displayed chord diagram shall transpose to the chosen root note, adjusting fret positions accordingly. Fret numbers shall be displayed on the right side of the fretboard, indicating the absolute fret position on the guitar neck, relative to the lowest fret of the displayed chord.
+
+[REQUIREMENT]
+UID: FR4
+LEVEL: 1
+STATUS: Implemented
+TAGS: Functional, Export
+TITLE: Diagram Export
+STATEMENT:
+The system shall provide a button to export the currently displayed chord diagram as a JPEG image file. The export function shall prompt the user for a save location and filename.
+
+[REQUIREMENT]
+UID: FR5
+LEVEL: 1
+STATUS: Implemented
+TAGS: Functional, Export
+TITLE: Copy to Clipboard
+STATEMENT:
+The system shall provide a button to copy the currently displayed chord diagram image to the system clipboard. The copied image shall be pasteable into other applications (e.g., word processors, image editors).
+
+[REQUIREMENT]
+UID: FR6
+LEVEL: 1
+STATUS: Implemented
+TAGS: Functional, GUI
+TITLE: Dynamic Chord Title
+STATEMENT:
+The system shall display a dynamic title at the top of the chord diagram, indicating the selected root note and chord type (e.g., "C Major 7"). This title shall be included in exported and copied images.
+
+[SECTION]
+TITLE: Non-Functional Requirements (NFRs)
+UID: NFRS
+
+[REQUIREMENT]
+UID: NFR1
+LEVEL: 1
+STATUS: Implemented
+TAGS: Non-Functional, Usability
+TITLE: Usability
+STATEMENT:
+The user interface shall be intuitive and easy to navigate for guitarists of varying technical proficiency. Chord diagrams shall be clear, legible, and visually appealing.
+
+[REQUIREMENT]
+UID: NFR2
+LEVEL: 1
+STATUS: Implemented
+TAGS: Non-Functional, Performance
+TITLE: Performance
+STATEMENT:
+The application shall render chord diagrams and respond to user input (e.g., chord/root selection) with minimal latency.
+
+[REQUIREMENT]
+UID: NFR3
+LEVEL: 1
+STATUS: Implemented
+TAGS: Non-Functional, Maintainability
+TITLE: Maintainability
+STATEMENT:
+The codebase shall be modular, well-structured, and easy to understand for future enhancements. Chord data shall be stored in an external, easily editable format (e.g., JSON).
+
+[REQUIREMENT]
+UID: NFR4
+LEVEL: 1
+STATUS: Implemented
+TAGS: Non-Functional, Portability
+TITLE: Portability
+STATEMENT:
+The application shall be runnable on common desktop operating systems (Windows, macOS, Linux) using Python and PySide6.
+
+[SECTION]
+TITLE: Technology Stack
+UID: TECH_STACK
+
+*   **Programming Language:** Python 3.11
+*   **GUI Framework:** PySide6 (Qt for Python)
+*   **Dependency Management:** Micromamba (via `environment.yml`)
+*   **Data Format:** JSON (for chord definitions)
+
+[SECTION]
+TITLE: Future Considerations
+UID: FUTURE
+
+Future enhancements may include:
+*   Chord progression builder and management.
+*   Audio playback of chords.
+*   Additional chord voicings and types.
+*   Integration with music theory concepts (e.g., scale degrees, voice leading).
