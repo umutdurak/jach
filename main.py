@@ -27,9 +27,10 @@ class ChordWidget(QWidget):
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
+        painter.fillRect(self.rect(), QColor("#ffffff"))
 
-        fretboard_rect = self.rect().adjusted(20, 20, -20, -20)
-        num_frets = 12
+        fretboard_rect = self.rect().adjusted(40, 60, -40, -40)
+        num_frets = 6
         num_strings = 6
         fret_height = fretboard_rect.height() / num_frets
         string_spacing = fretboard_rect.width() / (num_strings - 1)
@@ -43,6 +44,13 @@ class ChordWidget(QWidget):
             x = fretboard_rect.left() + i * string_spacing
             painter.drawLine(x, fretboard_rect.top(), x, fretboard_rect.bottom())
 
+        # Draw Title
+        title_font = QFont("Arial", 20, QFont.Bold)
+        painter.setFont(title_font)
+        painter.setPen(QColor("#000000"))
+        chord_name = f"{self.root_note} {self.current_chord['name']}"
+        painter.drawText(self.rect().adjusted(0, 20, 0, 0), Qt.AlignCenter | Qt.AlignTop, chord_name)
+
         root_offset = self.notes.index(self.root_note)
 
         for string, fret, interval in self.current_chord["positions"]:
@@ -50,27 +58,21 @@ class ChordWidget(QWidget):
             x = fretboard_rect.left() + string_index * string_spacing
             new_fret = fret + root_offset
 
-            if new_fret == -1:
-                painter.setPen(QPen(QColor("#ff0000"), 2))
-                painter.drawLine(x - 5, fretboard_rect.top() - 15, x + 5, fretboard_rect.top() - 5)
-                painter.drawLine(x + 5, fretboard_rect.top() - 15, x - 5, fretboard_rect.top() - 5)
-            elif new_fret == 0:
-                painter.setPen(QPen(QColor("#ffffff"), 2))
-                painter.drawEllipse(x - 5, fretboard_rect.top() - 15, 10, 10)
-            else:
+            if new_fret > 0 and new_fret <= num_frets:
                 y = fretboard_rect.top() + (new_fret - 0.5) * fret_height
-                painter.setBrush(QBrush(QColor("#ffffff")))
+                painter.setBrush(QBrush(QColor("#000000")))
                 painter.setPen(QPen(QColor("#000000"), 2))
-                painter.drawEllipse(x - 10, y - 10, 20, 20)
+                painter.drawEllipse(x - 15, y - 15, 30, 30)
 
-                painter.setFont(QFont("Arial", 10, QFont.Bold))
-                painter.setPen(QPen(QColor("#000000")))
-                painter.drawText(x - 10, y - 10, 20, 20, Qt.AlignCenter, interval)
+                painter.setFont(QFont("Arial", 12, QFont.Bold))
+                painter.setPen(QPen(QColor("#ffffff")))
+                painter.drawText(x - 15, y - 15, 30, 30, Qt.AlignCenter, interval)
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Jazz Chord Visualizer")
+        self.resize(400, 500)
 
         with open("chords.json", "r") as f:
             self.chords = json.load(f)
