@@ -1,6 +1,6 @@
 import sys
 import json
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QPushButton, QFileDialog, QLabel
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QPushButton, QFileDialog
 from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QFont, QPixmap
 from PySide6.QtCore import Qt
 
@@ -29,11 +29,18 @@ class ChordWidget(QWidget):
         painter.setRenderHint(QPainter.Antialiasing)
         painter.fillRect(self.rect(), QColor("#ffffff"))
 
-        fretboard_rect = self.rect().adjusted(40, 40, -40, -40)
+        fretboard_rect = self.rect().adjusted(40, 60, -40, -40)
         num_frets = 6
         num_strings = 6
         fret_height = fretboard_rect.height() / num_frets
         string_spacing = fretboard_rect.width() / (num_strings - 1)
+
+        # Draw Title
+        title_font = QFont("Arial", 20, QFont.Bold)
+        painter.setFont(title_font)
+        painter.setPen(QColor("#000000"))
+        chord_name = f"{self.root_note} {self.current_chord['name']}"
+        painter.drawText(self.rect().adjusted(0, 20, 0, 0), Qt.AlignCenter | Qt.AlignTop, chord_name)
 
         painter.setPen(QPen(QColor("#8c8c8c"), 2))
         for i in range(num_frets + 1):
@@ -43,6 +50,14 @@ class ChordWidget(QWidget):
         for i in range(num_strings):
             x = fretboard_rect.left() + i * string_spacing
             painter.drawLine(x, fretboard_rect.top(), x, fretboard_rect.bottom())
+
+        # Draw Fret Numbers
+        fret_font = QFont("Arial", 10)
+        painter.setFont(fret_font)
+        painter.setPen(QColor("#8c8c8c"))
+        for i in range(1, num_frets + 1):
+            y = fretboard_rect.top() + (i - 0.5) * fret_height
+            painter.drawText(fretboard_rect.right() + 5, y + 5, str(i))
 
         root_offset = self.notes.index(self.root_note)
 
@@ -74,11 +89,6 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.central_widget)
         self.layout = QVBoxLayout(self.central_widget)
 
-        self.title_label = QLabel()
-        self.title_label.setFont(QFont("Arial", 20, QFont.Bold))
-        self.title_label.setAlignment(Qt.AlignCenter)
-        self.layout.addWidget(self.title_label)
-
         self.selectors_layout = QHBoxLayout()
         self.chord_selector = QComboBox()
         self.root_selector = QComboBox()
@@ -96,30 +106,31 @@ class MainWindow(QMainWindow):
 
         self.chord_widget = ChordWidget(self.chords)
 
+        self.buttons_layout = QHBoxLayout()
         self.export_button = QPushButton("Export as JPEG")
-        self.export_button.clicked.connect(self.export_chord)
+        self.copy_button = QPushButton("Copy to Clipboard")
+        self.buttons_layout.addWidget(self.export_button)
+        self.buttons_layout.addWidget(self.copy_button)
 
         self.layout.addLayout(self.selectors_layout)
         self.layout.addWidget(self.chord_widget)
-        self.layout.addWidget(self.export_button)
+        self.layout.addLayout(self.buttons_layout)
 
-        self.chord_selector.currentTextChanged.connect(self.update_title)
-        self.root_selector.currentTextChanged.connect(self.update_title)
         self.chord_selector.currentTextChanged.connect(self.chord_widget.set_chord)
         self.root_selector.currentTextChanged.connect(self.chord_widget.set_root)
-
-        self.update_title()
-
-    def update_title(self):
-        root = self.root_selector.currentText()
-        chord = self.chord_selector.currentText()
-        self.title_label.setText(f"{root} {chord}")
+        self.export_button.clicked.connect(self.export_chord)
+        self.copy_button.clicked.connect(self.copy_to_clipboard)
 
     def export_chord(self):
         file_name, _ = QFileDialog.getSaveFileName(self, "Save Chord Diagram", "", "JPEG Files (*.jpg)")
         if file_name:
             pixmap = self.chord_widget.grab()
             pixmap.save(file_name, "jpg")
+
+    def copy_to_clipboard(self):
+        clipboard = QApplication.clipboard()
+        pixmap = self.chord_widget.grab()
+        clipboard.setPixmap(pixmap)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
