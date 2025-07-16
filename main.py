@@ -40,7 +40,10 @@ class ChordWidget(QWidget):
         painter.setFont(title_font)
         painter.setPen(QColor("#000000"))
         chord_name = f"{self.root_note} {self.current_chord['name']}"
-        painter.drawText(self.rect().adjusted(0, 10, 0, 0), Qt.AlignCenter | Qt.AlignTop, chord_name)
+        font_metrics = painter.fontMetrics()
+        text_width = font_metrics.horizontalAdvance(chord_name)
+        x = (self.width() - text_width) / 2
+        painter.drawText(x, 30, chord_name)
 
         painter.setPen(QPen(QColor("#8c8c8c"), 2))
         for i in range(num_frets + 1):
