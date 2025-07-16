@@ -1,7 +1,7 @@
 import sys
 import json
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QComboBox
-from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QFont
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QPushButton, QFileDialog
+from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QFont, QPixmap
 from PySide6.QtCore import Qt
 
 class ChordWidget(QWidget):
@@ -96,11 +96,21 @@ class MainWindow(QMainWindow):
 
         self.chord_widget = ChordWidget(self.chords)
 
+        self.export_button = QPushButton("Export as JPEG")
+        self.export_button.clicked.connect(self.export_chord)
+
         self.layout.addLayout(self.selectors_layout)
         self.layout.addWidget(self.chord_widget)
+        self.layout.addWidget(self.export_button)
 
         self.chord_selector.currentTextChanged.connect(self.chord_widget.set_chord)
         self.root_selector.currentTextChanged.connect(self.chord_widget.set_root)
+
+    def export_chord(self):
+        file_name, _ = QFileDialog.getSaveFileName(self, "Save Chord Diagram", "", "JPEG Files (*.jpg)")
+        if file_name:
+            pixmap = self.chord_widget.grab()
+            pixmap.save(file_name, "jpg")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
