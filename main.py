@@ -1,6 +1,6 @@
 import sys
 import json
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QPushButton, QFileDialog
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QPushButton, QFileDialog, QLabel
 from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QFont, QPixmap
 from PySide6.QtCore import Qt
 
@@ -29,7 +29,7 @@ class ChordWidget(QWidget):
         painter.setRenderHint(QPainter.Antialiasing)
         painter.fillRect(self.rect(), QColor("#ffffff"))
 
-        fretboard_rect = self.rect().adjusted(40, 60, -40, -40)
+        fretboard_rect = self.rect().adjusted(40, 40, -40, -40)
         num_frets = 6
         num_strings = 6
         fret_height = fretboard_rect.height() / num_frets
@@ -43,13 +43,6 @@ class ChordWidget(QWidget):
         for i in range(num_strings):
             x = fretboard_rect.left() + i * string_spacing
             painter.drawLine(x, fretboard_rect.top(), x, fretboard_rect.bottom())
-
-        # Draw Title
-        title_font = QFont("Arial", 20, QFont.Bold)
-        painter.setFont(title_font)
-        painter.setPen(QColor("#000000"))
-        chord_name = f"{self.root_note} {self.current_chord['name']}"
-        painter.drawText(self.rect().adjusted(0, 20, 0, 0), Qt.AlignCenter | Qt.AlignTop, chord_name)
 
         root_offset = self.notes.index(self.root_note)
 
@@ -81,6 +74,11 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.central_widget)
         self.layout = QVBoxLayout(self.central_widget)
 
+        self.title_label = QLabel()
+        self.title_label.setFont(QFont("Arial", 20, QFont.Bold))
+        self.title_label.setAlignment(Qt.AlignCenter)
+        self.layout.addWidget(self.title_label)
+
         self.selectors_layout = QHBoxLayout()
         self.chord_selector = QComboBox()
         self.root_selector = QComboBox()
@@ -105,8 +103,17 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(self.chord_widget)
         self.layout.addWidget(self.export_button)
 
+        self.chord_selector.currentTextChanged.connect(self.update_title)
+        self.root_selector.currentTextChanged.connect(self.update_title)
         self.chord_selector.currentTextChanged.connect(self.chord_widget.set_chord)
         self.root_selector.currentTextChanged.connect(self.chord_widget.set_root)
+
+        self.update_title()
+
+    def update_title(self):
+        root = self.root_selector.currentText()
+        chord = self.chord_selector.currentText()
+        self.title_label.setText(f"{root} {chord}")
 
     def export_chord(self):
         file_name, _ = QFileDialog.getSaveFileName(self, "Save Chord Diagram", "", "JPEG Files (*.jpg)")
