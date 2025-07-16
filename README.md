@@ -1,6 +1,6 @@
 # Jach - Jazz Chord Visualizer
 
-Jach is a desktop application designed for jazz guitarists to visualize, analyze, and explore chord voicings.
+Jach (short for Jazz Chords) is a desktop application designed for jazz guitarists to visualize, analyze, and explore chord voicings.
 
 ## Features
 
