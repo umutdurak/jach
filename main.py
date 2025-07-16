@@ -30,7 +30,7 @@ class ChordWidget(QWidget):
         painter.fillRect(self.rect(), QColor("#ffffff"))
 
         fretboard_rect = self.rect().adjusted(40, 60, -40, -40)
-        num_frets = 6
+        num_frets = 5
         num_strings = 6
         fret_height = fretboard_rect.height() / num_frets
         string_spacing = fretboard_rect.width() / (num_strings - 1)
