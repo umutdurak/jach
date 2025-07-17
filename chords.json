@@ -38,6 +38,15 @@
         [2, 4, "7"],
         [1, 5, "3"]
       ]
+    },
+    {
+      "name": "Major 7 Drop 2 (A-string root)",
+      "positions": [
+        [4, 3, "R"],
+        [3, 5, "5"],
+        [2, 4, "7"],
+        [1, 5, "3"]
+      ]
     }
   ],
   "Dominant 7": [
@@ -77,6 +86,28 @@
         [3, 5, "5"],
         [2, 3, "7b"],
         [1, 4, "3b"]
+      ]
+    }
+  ],
+  "Minor 7 Flat 5": [
+    {
+      "name": "Minor 7 Flat 5 (E-string root)",
+      "positions": [
+        [5, 8, "R"],
+        [4, 7, "b5"],
+        [3, 8, "b3"],
+        [2, 8, "b7"]
+      ]
+    }
+  ],
+  "Diminished 7": [
+    {
+      "name": "Diminished 7 (E-string root)",
+      "positions": [
+        [5, 8, "R"],
+        [4, 7, "b5"],
+        [3, 9, "b3"],
+        [2, 8, "bb7"]
       ]
     }
   ],
